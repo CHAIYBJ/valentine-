@@ -1,415 +1,1032 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dora My Valentine ❤️</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dora My Valentine ❤️</title>
 
-<style>
-*{
-  box-sizing:border-box;
-}
+    <style>
+      * {
+        box-sizing: border-box;
+      }
 
-body{
-  margin:0;
-  height:100vh;
-  font-family:Arial, sans-serif;
-  background:url("background.jpg") center/cover no-repeat;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  position:relative;
-}
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        background: url("background.jpg") center/cover no-repeat fixed;
+        overflow-x: hidden;
+        position: relative;
+      }
 
-.overlay{
-  background:rgba(0,0,0,0.55);
-  width:100%;
-  height:100%;
-  position:absolute;
-  top:0;
-  left:0;
-}
+      .overlay {
+        background: rgba(0, 0, 0, 0.55);
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
 
-.container{
-  position:relative;
-  z-index:2;
-  text-align:center;
-  color:white;
-  width:90%;
-  max-width:500px;
-}
+      /* Main container that slides */
+      .main-wrapper {
+        position: relative;
+        z-index: 2;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 100vh;
+      }
 
-.countdown{
-  position:fixed;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:clamp(16px,4vw,22px);
-  font-weight:bold;
-  text-shadow:2px 2px 4px rgba(0,0,0,0.5);
-  color:white;
-  background:rgba(0,0,0,0.5);
-  padding:10px 20px;
-  border-radius:10px;
-  z-index:10001;
-}
+      .main-wrapper.show-memories {
+        transform: translateY(-100vh);
+      }
 
-.heart-container{
-  position:relative;
-  width:min(70vw,280px);
-  height:min(65vw,260px);
-  margin:auto;
-}
+      /* Valentine section */
+      .valentine-section {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
 
-.heart{
-  width:100%;
-  height:100%;
-  background:#ff2f6d;
-  position:absolute;
-  transform:rotate(-45deg);
-  animation:pulse 1.5s infinite;
-  box-shadow:0 0 40px rgba(255,47,109,0.6);
-}
+      .container {
+        text-align: center;
+        color: white;
+        width: 90%;
+        max-width: 500px;
+      }
 
-.heart::before,
-.heart::after{
-  content:"";
-  width:100%;
-  height:100%;
-  background:#ff2f6d;
-  border-radius:50%;
-  position:absolute;
-}
+      .countdown {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: clamp(16px, 4vw, 22px);
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        color: white;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px;
+        border-radius: 10px;
+        z-index: 10000;
+      }
 
-.heart::before{
-  top:-50%;
-  left:0;
-}
+      .heart-container {
+        position: relative;
+        width: min(70vw, 280px);
+        height: min(65vw, 260px);
+        margin: auto;
+      }
 
-.heart::after{
-  left:50%;
-  top:0;
-}
+      .heart {
+        width: 100%;
+        height: 100%;
+        background: #ff2f6d;
+        position: absolute;
+        transform: rotate(-45deg);
+        animation: pulse 1.5s infinite;
+        box-shadow: 0 0 40px rgba(255, 47, 109, 0.6);
+      }
 
-@keyframes pulse{
-  0%{transform:rotate(-45deg) scale(1);}
-  50%{transform:rotate(-45deg) scale(1.05);}
-  100%{transform:rotate(-45deg) scale(1);}
-}
+      .heart::before,
+      .heart::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        background: #ff2f6d;
+        border-radius: 50%;
+        position: absolute;
+      }
 
-.text{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  font-size:clamp(18px,4.5vw,24px);
-  font-weight:bold;
-  padding:20px 25px;
-  background:rgba(255,255,255,0.95);
-  color:#ff2f6d;
-  border-radius:15px;
-  line-height:1.4;
-  box-shadow:0 4px 20px rgba(0,0,0,0.2);
-  z-index:9999;
-  width:75%;
-  max-width:none;
-}
+      .heart::before {
+        top: -50%;
+        left: 0;
+      }
 
-.glow{
-  animation:glow 1.5s infinite alternate;
-}
+      .heart::after {
+        left: 50%;
+        top: 0;
+      }
 
-@keyframes glow{
-  from{text-shadow:0 0 10px #ff2f6d;}
-  to{text-shadow:0 0 20px #ff2f6d;}
-}
+      @keyframes pulse {
+        0% {
+          transform: rotate(-45deg) scale(1);
+        }
+        50% {
+          transform: rotate(-45deg) scale(1.05);
+        }
+        100% {
+          transform: rotate(-45deg) scale(1);
+        }
+      }
 
-.buttons{
-  margin-top:40px;
-  position:relative;
-  height:120px;
-}
+      .text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: clamp(18px, 4.5vw, 24px);
+        font-weight: bold;
+        padding: 20px 25px;
+        background: rgba(255, 255, 255, 0.95);
+        color: #ff2f6d;
+        border-radius: 15px;
+        line-height: 1.4;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        width: 75%;
+        max-width: none;
+      }
 
-button{
-  padding:12px 24px;
-  font-size:clamp(14px,3.5vw,18px);
-  border:none;
-  border-radius:30px;
-  cursor:pointer;
-  transition:transform 0.2s;
-}
+      .glow {
+        animation: glow 1.5s infinite alternate;
+      }
 
-button:hover{
-  transform:scale(1.05);
-}
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 10px #ff2f6d;
+        }
+        to {
+          text-shadow: 0 0 20px #ff2f6d;
+        }
+      }
 
-#yesBtn{
-  background:#ff2f6d;
-  color:white;
-  box-shadow:0 4px 15px rgba(255,47,109,0.4);
-}
+      .buttons {
+        margin-top: 40px;
+        position: relative;
+        height: 120px;
+      }
 
-#noBtn{
-  background:#333;
-  color:white;
-  position:absolute;
-  left:50%;
-  top:60px;
-  transform:translateX(-50%);
-  box-shadow:0 4px 15px rgba(0,0,0,0.3);
-}
+      button {
+        padding: 12px 24px;
+        font-size: clamp(14px, 3.5vw, 18px);
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
 
-.modal{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.7);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:10000;
-  padding:20px;
-}
+      button:hover {
+        transform: scale(1.05);
+      }
 
-.modal-content{
-  background:white;
-  color:#ff2f6d;
-  padding:25px;
-  border-radius:15px;
-  max-width:350px;
-  width:100%;
-  position:relative;
-  animation:fade 0.6s ease;
-  text-align:center;
-  box-shadow:0 10px 40px rgba(0,0,0,0.3);
-}
+      #yesBtn {
+        background: #ff2f6d;
+        color: white;
+        box-shadow: 0 4px 15px rgba(255, 47, 109, 0.4);
+      }
 
-@keyframes fade{
-  from{transform:scale(0.6);opacity:0;}
-  to{transform:scale(1);opacity:1;}
-}
+      #noBtn {
+        background: #333;
+        color: white;
+        position: absolute;
+        left: 50%;
+        top: 60px;
+        transform: translateX(-50%);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
 
-.close-btn{
-  position:absolute;
-  top:10px;
-  right:15px;
-  font-size:20px;
-  cursor:pointer;
-  font-weight:bold;
-}
+      #memoriesBtn {
+        background: linear-gradient(135deg, #ff6b9d 0%, #ff2f6d 100%);
+        color: white;
+        margin-top: 20px;
+        box-shadow: 0 4px 15px rgba(255, 47, 109, 0.4);
+        font-weight: bold;
+      }
 
-.close-btn:hover{
-  color:#ff0048;
-}
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        padding: 20px;
+      }
 
-.love-message{
-  margin-top:15px;
-  font-weight:bold;
-  font-size:clamp(15px,4vw,18px);
-  line-height:1.6;
-}
+      .modal-content {
+        background: white;
+        color: #ff2f6d;
+        padding: 25px;
+        border-radius: 15px;
+        max-width: 350px;
+        width: 100%;
+        position: relative;
+        animation: fade 0.6s ease;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      }
 
-.emoji{
-  position:fixed;
-  font-size:26px;
-  animation:burst 1.5s forwards;
-  pointer-events:none;
-  z-index:1;
-}
+      @keyframes fade {
+        from {
+          transform: scale(0.6);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
 
-@keyframes burst{
-  from{transform:translate(0,0) scale(1);opacity:1;}
-  to{transform:translate(var(--x),var(--y)) scale(0);opacity:0;}
-}
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;
+        font-weight: bold;
+      }
 
-.music-button{
-  position:fixed;
-  top:20px;
-  left:20px;
-  background:#ff2f6d;
-  color:white;
-  border:none;
-  padding:12px 20px;
-  font-size:16px;
-  border-radius:25px;
-  cursor:pointer;
-  z-index:10001;
-  font-weight:bold;
-  box-shadow:0 3px 8px rgba(0,0,0,0.3);
-  transition:transform 0.2s;
-}
+      .close-btn:hover {
+        color: #ff0048;
+      }
 
-.music-button:hover{
-  transform:scale(1.1);
-}
+      .love-message {
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: clamp(15px, 4vw, 18px);
+        line-height: 1.6;
+      }
 
-@media(max-width:400px){
-  .buttons{
-    margin-top:25px;
-    height:100px;
-  }
-}
-</style>
-</head>
+      .emoji {
+        position: fixed;
+        font-size: 26px;
+        animation: burst 1.5s forwards;
+        pointer-events: none;
+        z-index: 1;
+      }
 
-<body>
+      @keyframes burst {
+        from {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+        to {
+          transform: translate(var(--x), var(--y)) scale(0);
+          opacity: 0;
+        }
+      }
 
-<button id="musicToggle" class="music-button">PLAY ME</button>
+      .music-button {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: #ff2f6d;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 10001;
+        font-weight: bold;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s;
+      }
 
-<div class="overlay"></div>
+      .music-button:hover {
+        transform: scale(1.1);
+      }
 
-<div class="container">
+      /* Memories Section */
+      .memories-section {
+        min-height: 100vh;
+        padding: 80px 20px 40px;
+        position: relative;
+      }
 
-<div class="countdown" id="countdown"></div>
+      .back-button {
+        position: static !important;
+        background: rgba(255, 255, 255, 0.9);
+        color: #ff2f6d;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        pointer-events: auto;
+        display: inline-block;
+        margin: 40px auto;
+      }
 
-<div class="heart-container">
-  <div class="heart"></div>
-  <div class="text glow" id="typingText">
-    Dora, will you be my Valentine?
-  </div>
-</div>
+      .back-button:hover {
+        transform: scale(1.05);
+        background: white;
+      }
 
-<div class="buttons">
-<button id="yesBtn">Yes ❤️</button>
-<button id="noBtn">No 💔</button>
-</div>
+      .back-button:hover {
+        transform: scale(1.05);
+        background: white;
+      }
 
-</div>
+      .memories-title {
+        text-align: center;
+        color: white;
+        font-size: clamp(28px, 6vw, 42px);
+        margin-bottom: 50px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      }
 
-<div class="modal" id="modal">
-<div class="modal-content">
+      .carousel-container {
+        max-width: 900px;
+        margin: 0 auto 60px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      }
 
-<span class="close-btn" id="closeModal">✖</span>
+      .carousel-title {
+        color: #ff2f6d;
+        font-size: clamp(20px, 4vw, 28px);
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
 
-<h2>Congratulations 🎉</h2>
-<p>You've chosen to become my Valentine ❤️</p>
+      .carousel {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+        background: #f8f8f8;
+      }
 
-<div class="love-message">
-Thanks for being my Valentine, Dora ❤️
-<br>
-From the moment you came into my life, everything became brighter. Your smile, your laugh, and your kindness fill my heart with joy every single day.
-<br>
-You are my heart, my happiness, and my favorite everything 💕. I promise to cherish you and make every moment together unforgettable 😍.
-<br>
-Forever yours,
-Bolaji
-</div>
+      .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+      }
 
-</div>
-</div>
+      .carousel-slide {
+        min-width: 100%;
+        position: relative;
+      }
 
-<audio id="bgMusic" autoplay loop>
-<source src="song.mp3" type="audio/mpeg">
-</audio>
+      .carousel-slide video {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: contain;
+        background: #000;
+        border-radius: 10px;
+      }
 
-<script>
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const modal = document.getElementById("modal");
-const closeBtn = document.getElementById("closeModal");
-const music = document.getElementById("bgMusic");
-const toggle = document.getElementById("musicToggle");
+      .slide-caption {
+        padding: 15px;
+        text-align: center;
+      }
 
-// Ensure music plays automatically
-music.play().catch(()=>{});
+      .caption-text {
+        color: #333;
+        font-size: clamp(14px, 3.5vw, 18px);
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
 
-// Keep No button moving but always visible
-document.addEventListener("mousemove", e => {
-  const rect = noBtn.getBoundingClientRect();
-  const centerX = rect.left + rect.width/2;
-  const centerY = rect.top + rect.height/2;
-  const dx = e.clientX - centerX;
-  const dy = e.clientY - centerY;
-  const distance = Math.sqrt(dx*dx + dy*dy);
+      .caption-date {
+        color: #666;
+        font-size: clamp(12px, 3vw, 14px);
+        font-style: italic;
+      }
 
-  if(distance < 50){
-    const angle = Math.atan2(dy, dx);
-    const moveX = centerX - Math.cos(angle) * 20;
-    const moveY = centerY - Math.sin(angle) * 20;
-    
-    const maxX = window.innerWidth - rect.width;
-    const maxY = window.innerHeight - rect.height;
-    
-    const clampedX = Math.max(0, Math.min(moveX - rect.width/2, maxX));
-    const clampedY = Math.max(0, Math.min(moveY - rect.height/2, maxY));
+      .carousel-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 20px;
+        color: #ff2f6d;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s;
+        z-index: 10;
+      }
 
-    noBtn.style.left = clampedX + "px";
-    noBtn.style.top = clampedY + "px";
-  }
-});
+      .carousel-nav:hover {
+        background: white;
+        transform: translateY(-50%) scale(1.1);
+      }
 
-// Touch support for mobile
-noBtn.addEventListener("touchstart", e => {
-  e.preventDefault();
-  const maxX = window.innerWidth - noBtn.offsetWidth;
-  const maxY = window.innerHeight - noBtn.offsetHeight;
-  
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-  
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-});
+      .carousel-nav.prev {
+        left: 10px;
+      }
 
-yesBtn.onclick = ()=>{
-  modal.style.display = "flex";
-  fireworks();
-};
+      .carousel-nav.next {
+        right: 10px;
+      }
 
-closeBtn.onclick = ()=>{
-  modal.style.display = "none";
-};
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 15px;
+      }
 
-function fireworks(){
-  const emojis = ["🎉","❤️","💕","💖","😍","✨","💝","🌹","💗","🎊"];
-  for(let i=0;i<80;i++){
-    const e = document.createElement("span");
-    e.className = "emoji";
-    e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-    const startX = window.innerWidth/2;
-    const startY = window.innerHeight/2;
-    e.style.left = startX + "px";
-    e.style.top = startY + "px";
-    const x = (Math.random()-0.5)*600 + "px";
-    const y = (Math.random()-0.5)*600 + "px";
-    e.style.setProperty("--x",x);
-    e.style.setProperty("--y",y);
-    document.body.appendChild(e);
-    setTimeout(()=>e.remove(),1500);
-  }
-}
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #ccc;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
 
-function updateCountdown(){
-  const now = new Date();
-  let year = now.getFullYear();
-  let valentine = new Date(year,1,14);
-  if(now > valentine){
-    valentine = new Date(year+1,1,14);
-  }
-  const diff = valentine - now;
-  const d = Math.floor(diff/(1000*60*60*24));
-  const h = Math.floor(diff/(1000*60*60)%24);
-  const m = Math.floor(diff/(1000*60)%60);
-  const s = Math.floor(diff/1000%60);
-  document.getElementById("countdown").innerText =
-  `Valentine's Day in ${d}d ${h}h ${m}m ${s}s ❤️`;
-}
-setInterval(updateCountdown,1000);
-updateCountdown();
+      .dot.active {
+        background: #ff2f6d;
+        transform: scale(1.3);
+      }
 
-toggle.onclick = ()=>{
-  if(music.paused){
-    music.play();
-    toggle.innerText = "PAUSE ME";
-  } else {
-    music.pause();
-    toggle.innerText = "PLAY ME";
-  }
-};
-</script>
+      @media (max-width: 400px) {
+        .buttons {
+          margin-top: 25px;
+          height: 140px;
+        }
 
-</body>
+        .carousel-container {
+          padding: 20px 15px;
+        }
+
+        .carousel-nav {
+          width: 38px;
+          height: 38px;
+          font-size: 16px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .memories-section {
+          padding: 60px 15px 30px;
+        }
+
+        .carousel-slide video {
+          max-height: 350px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="musicToggle" class="music-button">PLAY ME</button>
+
+    <div class="overlay"></div>
+
+    <div class="main-wrapper" id="mainWrapper">
+      <!-- VALENTINE SECTION -->
+      <div class="valentine-section">
+        <div class="container">
+          <div class="countdown" id="countdown"></div>
+
+          <div class="heart-container">
+            <div class="heart"></div>
+            <div class="text glow" id="typingText">
+              Dora, will you be my Valentine?
+            </div>
+          </div>
+
+          <div class="buttons">
+            <button id="yesBtn">Yes ❤️</button>
+            <button id="noBtn">No 💔</button>
+            <div style="margin-top: 20px">
+              <button id="memoriesBtn">Our Memories 💕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEMORIES SECTION -->
+      <div class="memories-section">
+        <h1 class="memories-title">
+          On Our 12th Month, Heres Are 12 Of Our Beautiful Memories 💖
+        </h1>
+
+        <!-- CAROUSEL 1: Trips and Adventures -->
+        <div class="carousel-container">
+          <h2 class="carousel-title">Trips and Adventures ✈️</h2>
+
+          <div class="carousel" id="carousel1">
+            <button class="carousel-nav prev" data-carousel="1">‹</button>
+            <button class="carousel-nav next" data-carousel="1">›</button>
+
+            <div class="carousel-track" id="track1">
+              <!-- SLIDE 1 - Replace with your video -->
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 1.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Our first adventure together</p>
+                  <p class="caption-date">January 2024</p>
+                </div>
+              </div>
+
+              <!-- SLIDE 2 - Replace with your video -->
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 2.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Exploring new places with you</p>
+                  <p class="caption-date">February 2024</p>
+                </div>
+              </div>
+
+              <!-- SLIDE 3 - Replace with your video -->
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 3.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Weekend getaway memories</p>
+                  <p class="caption-date">March 2024</p>
+                </div>
+              </div>
+
+              <!-- SLIDE 4 - Replace with your video -->
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 4.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Beach day bliss</p>
+                  <p class="caption-date">April 2024</p>
+                </div>
+              </div>
+
+              <!-- SLIDE 5 - Replace with your video -->
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 5.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Mountain hiking adventure</p>
+                  <p class="caption-date">May 2024</p>
+                </div>
+              </div>
+
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 6.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Mountain hiking adventure</p>
+                  <p class="caption-date">May 2024</p>
+                </div>
+              </div>
+
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 7.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Mountain hiking adventure</p>
+                  <p class="caption-date">May 2024</p>
+                </div>
+              </div>
+
+              <!-- ADD MORE SLIDES HERE - Copy the structure above -->
+            </div>
+
+            <div class="carousel-dots" id="dots1"></div>
+          </div>
+        </div>
+
+        <!-- CAROUSEL 2: Everyday and Funny Moments -->
+        <div class="carousel-container">
+          <h2 class="carousel-title">Everyday and Funny Moments 😄</h2>
+
+          <div class="carousel" id="carousel2">
+            <button class="carousel-nav prev" data-carousel="2">‹</button>
+            <button class="carousel-nav next" data-carousel="2">›</button>
+
+            <div class="carousel-track" id="track2">
+              <!-- SLIDE 1 - Replace with your video -->
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 8.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Cooking disasters but so much fun!</p>
+                  <p class="caption-date">June 2024</p>
+                </div>
+              </div>
+
+              <!-- SLIDE 2 - Replace with your video -->
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 9.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Dance party in the living room</p>
+                  <p class="caption-date">July 2024</p>
+                </div>
+              </div>
+
+              <!-- SLIDE 3 - Replace with your video -->
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID10.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Your silly faces make my day</p>
+                  <p class="caption-date">August 2024</p>
+                </div>
+              </div>
+
+              <!-- SLIDE 4 - Replace with your video -->
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 11.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Lazy Sunday mornings</p>
+                  <p class="caption-date">September 2024</p>
+                </div>
+              </div>
+
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 12.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Lazy Sunday mornings</p>
+                  <p class="caption-date">September 2024</p>
+                </div>
+              </div>
+
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 13.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Lazy Sunday mornings</p>
+                  <p class="caption-date">September 2024</p>
+                </div>
+              </div>
+
+              <div class="carousel-slide">
+                <video controls preload="metadata">
+                  <source src="VID 14.mp4" type="video/mp4" />
+                </video>
+                <div class="slide-caption">
+                  <p class="caption-text">Lazy Sunday mornings</p>
+                  <p class="caption-date">September 2024</p>
+                </div>
+              </div>
+
+              <!-- ADD MORE SLIDES HERE - Copy the structure above -->
+            </div>
+
+            <div class="carousel-dots" id="dots2"></div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px; padding-bottom: 40px">
+          <button class="back-button" id="backBtn">← Back to Valentine</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal remains the same -->
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <span class="close-btn" id="closeModal">✖</span>
+        <h2>Congratulations 🎉</h2>
+        <p>You've chosen to become my Valentine ❤️</p>
+        <div class="love-message">
+          Thanks for being my Val, Dora ❤️
+          <br />
+          Thanks for being my Valentine, Dora ❤️ From the moment you came into
+          my life, everything genuinely became brighter. Your smile, your laugh,
+          and your kindness still make my days lighter than you probably
+          realize.
+          <br />
+          This February also marks our 12th month together, and honestly, I’m
+          grateful for every single moment we’ve shared so far. The big
+          memories, the small ones, the laughs, the randomness, all of it means
+          a lot to me 💕.
+          <br />
+          And yes… sorry I made it impossible for you to click the No button 😌
+          I couldn’t take that kind of heartbreak today.
+          <br />
+          You are my heart, my happiness, and my favorite everything. I promise
+          to keep choosing you, cherishing you, and making memories we’ll always
+          smile about.
+          <br />
+          Forever yours, Bolaji
+        </div>
+      </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+      <source src="song.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+      // ===== ORIGINAL VALENTINE FUNCTIONALITY =====
+      const noBtn = document.getElementById("noBtn");
+      const yesBtn = document.getElementById("yesBtn");
+      const modal = document.getElementById("modal");
+      const closeBtn = document.getElementById("closeModal");
+      const music = document.getElementById("bgMusic");
+      const toggle = document.getElementById("musicToggle");
+
+      // Music control
+      toggle.onclick = () => {
+        if (music.paused) {
+          music.play();
+          toggle.innerText = "PAUSE ME";
+        } else {
+          music.pause();
+          toggle.innerText = "PLAY ME";
+        }
+      };
+
+      // Auto-play attempt
+      // music.play().catch(()=>{
+      //   toggle.innerText = "PLAY ME";
+      // }) ;
+
+      // Keep No button moving
+      document.addEventListener("mousemove", (e) => {
+        const rect = noBtn.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const dx = e.clientX - centerX;
+        const dy = e.clientY - centerY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 50) {
+          const angle = Math.atan2(dy, dx);
+          const moveX = centerX - Math.cos(angle) * 20;
+          const moveY = centerY - Math.sin(angle) * 20;
+
+          const maxX = window.innerWidth - rect.width;
+          const maxY = window.innerHeight - rect.height;
+
+          const clampedX = Math.max(0, Math.min(moveX - rect.width / 2, maxX));
+          const clampedY = Math.max(0, Math.min(moveY - rect.height / 2, maxY));
+
+          noBtn.style.left = clampedX + "px";
+          noBtn.style.top = clampedY + "px";
+        }
+      });
+
+      noBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        const maxX = window.innerWidth - noBtn.offsetWidth;
+        const maxY = window.innerHeight - noBtn.offsetHeight;
+
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+      });
+
+      yesBtn.onclick = () => {
+        modal.style.display = "flex";
+        fireworks();
+      };
+
+      closeBtn.onclick = () => {
+        modal.style.display = "none";
+      };
+
+      function fireworks() {
+        const emojis = [
+          "🎉",
+          "❤️",
+          "💕",
+          "💖",
+          "😘",
+          "✨",
+          "💐",
+          "🌹",
+          "💗",
+          "🎊",
+        ];
+        for (let i = 0; i < 80; i++) {
+          const e = document.createElement("span");
+          e.className = "emoji";
+          e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+          const startX = window.innerWidth / 2;
+          const startY = window.innerHeight / 2;
+          e.style.left = startX + "px";
+          e.style.top = startY + "px";
+          const x = (Math.random() - 0.5) * 600 + "px";
+          const y = (Math.random() - 0.5) * 600 + "px";
+          e.style.setProperty("--x", x);
+          e.style.setProperty("--y", y);
+          document.body.appendChild(e);
+          setTimeout(() => e.remove(), 1500);
+        }
+      }
+
+      function updateCountdown() {
+        const now = new Date();
+        let year = now.getFullYear();
+        let valentine = new Date(year, 1, 14);
+        if (now > valentine) {
+          valentine = new Date(year + 1, 1, 14);
+        }
+        const diff = valentine - now;
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / (1000 * 60)) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+        document.getElementById("countdown").innerText =
+          `Valentine's Day in ${d}d ${h}h ${m}m ${s}s ❤️`;
+      }
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
+
+      // ===== NEW MEMORIES FUNCTIONALITY =====
+      const mainWrapper = document.getElementById("mainWrapper");
+      const memoriesBtn = document.getElementById("memoriesBtn");
+      const backBtn = document.getElementById("backBtn");
+
+      // Section navigation
+      memoriesBtn.onclick = () => {
+        mainWrapper.classList.add("show-memories");
+        pauseAllVideos();
+        window.scrollTo(0, 0);
+      };
+
+      backBtn.onclick = () => {
+        mainWrapper.classList.remove("show-memories");
+        pauseAllVideos();
+        window.scrollTo(0, 0);
+      };
+
+      // ===== CAROUSEL FUNCTIONALITY =====
+      class Carousel {
+        constructor(carouselId) {
+          this.carousel = document.getElementById("carousel" + carouselId);
+          this.track = document.getElementById("track" + carouselId);
+          this.slides = this.track.querySelectorAll(".carousel-slide");
+          this.dotsContainer = document.getElementById("dots" + carouselId);
+          this.prevBtn = this.carousel.querySelector(".prev");
+          this.nextBtn = this.carousel.querySelector(".next");
+
+          this.currentIndex = 0;
+          this.startX = 0;
+          this.isDragging = false;
+
+          this.init();
+        }
+
+        init() {
+          // Create dots
+          this.slides.forEach((_, index) => {
+            const dot = document.createElement("span");
+            dot.className = "dot";
+            if (index === 0) dot.classList.add("active");
+            dot.addEventListener("click", () => this.goToSlide(index));
+            this.dotsContainer.appendChild(dot);
+          });
+
+          this.dots = this.dotsContainer.querySelectorAll(".dot");
+
+          // Button navigation
+          this.prevBtn.addEventListener("click", () => this.prev());
+          this.nextBtn.addEventListener("click", () => this.next());
+
+          // Touch/swipe support
+          this.track.addEventListener(
+            "touchstart",
+            (e) => this.handleTouchStart(e),
+            { passive: true },
+          );
+          this.track.addEventListener(
+            "touchmove",
+            (e) => this.handleTouchMove(e),
+            { passive: true },
+          );
+          this.track.addEventListener("touchend", () => this.handleTouchEnd());
+
+          // Mouse drag support
+          this.track.addEventListener("mousedown", (e) =>
+            this.handleMouseDown(e),
+          );
+          this.track.addEventListener("mousemove", (e) =>
+            this.handleMouseMove(e),
+          );
+          this.track.addEventListener("mouseup", () => this.handleMouseUp());
+          this.track.addEventListener("mouseleave", () => this.handleMouseUp());
+
+          // Keyboard navigation
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") this.prev();
+            if (e.key === "ArrowRight") this.next();
+          });
+        }
+
+        goToSlide(index) {
+          // Pause current video
+          const currentVideo =
+            this.slides[this.currentIndex].querySelector("video");
+          if (currentVideo) currentVideo.pause();
+
+          this.currentIndex = index;
+          this.track.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+
+          // Update dots
+          this.dots.forEach((dot, i) => {
+            dot.classList.toggle("active", i === this.currentIndex);
+          });
+        }
+
+        next() {
+          const nextIndex = (this.currentIndex + 1) % this.slides.length;
+          this.goToSlide(nextIndex);
+        }
+
+        prev() {
+          const prevIndex =
+            (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+          this.goToSlide(prevIndex);
+        }
+
+        handleTouchStart(e) {
+          this.startX = e.touches[0].clientX;
+        }
+
+        handleTouchMove(e) {
+          if (!this.startX) return;
+          this.currentX = e.touches[0].clientX;
+        }
+
+        handleTouchEnd() {
+          if (!this.startX || !this.currentX) return;
+
+          const diff = this.startX - this.currentX;
+
+          if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+              this.next();
+            } else {
+              this.prev();
+            }
+          }
+
+          this.startX = 0;
+          this.currentX = 0;
+        }
+
+        handleMouseDown(e) {
+          this.isDragging = true;
+          this.startX = e.clientX;
+          this.track.style.cursor = "grabbing";
+        }
+
+        handleMouseMove(e) {
+          if (!this.isDragging) return;
+          this.currentX = e.clientX;
+        }
+
+        handleMouseUp() {
+          if (!this.isDragging) return;
+
+          if (this.currentX) {
+            const diff = this.startX - this.currentX;
+
+            if (Math.abs(diff) > 50) {
+              if (diff > 0) {
+                this.next();
+              } else {
+                this.prev();
+              }
+            }
+          }
+
+          this.isDragging = false;
+          this.startX = 0;
+          this.currentX = 0;
+          this.track.style.cursor = "grab";
+        }
+      }
+
+      // Initialize both carousels
+      const carousel1 = new Carousel(1);
+      const carousel2 = new Carousel(2);
+
+      // Helper function to pause all videos
+      function pauseAllVideos() {
+        document.querySelectorAll("video").forEach((video) => {
+          video.pause();
+        });
+      }
+    </script>
+  </body>
 </html>
